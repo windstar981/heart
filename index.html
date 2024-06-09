@@ -77,25 +77,44 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const input = document.getElementById('input');
+        const input = document.getElementById('input');
+        let typingTimer;
+
+            function createHeart() {
+                for (let i = 0; i < 2; i++) { // Thay đổi số lượng trái tim từ 1 thành 2
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    document.body.appendChild(heart);
+
+                    const inputRect = input.getBoundingClientRect();
+                    const x = inputRect.left + inputRect.width / 2 + (Math.random() - 0.5) * inputRect.width;
+                    const y = inputRect.top + inputRect.height / 2 + (Math.random() - 0.5) * inputRect.height;
+
+                    heart.style.left = `${x}px`;
+                    heart.style.top = `${y}px`;
+
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 1000);
+                }
+            }
+
+            function scheduleHeartCreation() {
+                typingTimer = setTimeout(() => {
+                    createHeart();
+                    scheduleHeartCreation();
+                }, 1000);
+            }
 
             input.addEventListener('input', () => {
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                document.body.appendChild(heart);
-
-                const inputRect = input.getBoundingClientRect();
-                const x = inputRect.left + inputRect.width / 2 + (Math.random() - 0.5) * inputRect.width;
-                const y = inputRect.top + inputRect.height / 2 + (Math.random() - 0.5) * inputRect.height;
-
-                heart.style.left = `${x}px`;
-                heart.style.top = `${y}px`;
-
-                setTimeout(() => {
-                    heart.remove();
-                }, 1000);
+                clearTimeout(typingTimer);
+                createHeart();
+                scheduleHeartCreation();
             });
+
+            scheduleHeartCreation();
         });
+
     </script>
 </body>
 </html>
