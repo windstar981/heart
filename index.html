@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode with Heart Effect</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        input {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .heart {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff7a7a;
+            transform: rotate(45deg);
+            animation: float 1s ease-in-out;
+        }
+
+        .heart:before, .heart:after {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff7a7a;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -5px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -5px;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(45deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) rotate(45deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="input" placeholder="Type here...">
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('input');
+
+            input.addEventListener('input', () => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                document.body.appendChild(heart);
+
+                const inputRect = input.getBoundingClientRect();
+                const x = inputRect.left + inputRect.width / 2 + (Math.random() - 0.5) * inputRect.width;
+                const y = inputRect.top + inputRect.height / 2 + (Math.random() - 0.5) * inputRect.height;
+
+                heart.style.left = `${x}px`;
+                heart.style.top = `${y}px`;
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
